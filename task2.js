@@ -8,7 +8,13 @@ const checkType = function (value, type) {
 
 class ConversionLibrary {
     addValues() {};
-    stringifyValues() {};
+    stringifyValue(value) {
+        if (typeof value === "object") {
+            return JSON.stringify(value);
+        }
+
+        return value.toString();
+    };
     invertBoolean(value) {
         try {
             checkType(value, 'boolean');
@@ -33,23 +39,23 @@ class ConversionLibrary {
     };
     coerceToType(value, type) {
         try {
-            let coertedValue;
+            let coercedValue;
 
             switch (type) {
                 case 'number':
-                    coertedValue = Number(value);
+                    coercedValue = Number(value);
                     break;
                 case 'string':
-                    coertedValue = String(value);
+                    coercedValue = String(value);
                     break;
                 case 'boolean':
-                    coertedValue = !!value;
+                    coercedValue = !!value;
                     break;
                 default:
                     throw new Error('Incorrect type');
             }
 
-            return coertedValue;
+            return coercedValue;
         } catch (err) {
             return err.message;
         }
@@ -58,6 +64,13 @@ class ConversionLibrary {
 
 const conversionLibrary = new ConversionLibrary();
 
+console.log(conversionLibrary.stringifyValues(true));                            // 'true'
+console.log(conversionLibrary.stringifyValues(false));                           // 'false'
+console.log(conversionLibrary.stringifyValues('1'));                             // '1'
+console.log(conversionLibrary.stringifyValues(502n));                            // '502'
+console.log(conversionLibrary.stringifyValues({'a': 1, 'b': 2, 'c': 3}));        // '{"a":1,"b":2,"c":3}'
+console.log(conversionLibrary.stringifyValues([1, 2, 3]));                       // '[1,2,3]'
+
 console.log();
 
 console.log(conversionLibrary.invertBoolean(true));                     // false
@@ -65,8 +78,8 @@ console.log(conversionLibrary.invertBoolean(false));                    // true
 console.log(conversionLibrary.invertBoolean('1'));                      // Error
 console.log(conversionLibrary.invertBoolean(502n));                     // Error
 console.log(conversionLibrary.invertBoolean(Symbol('foo')));        // Error
-console.log(conversionLibrary.invertBoolean(Symbol(null)));         // Error
-console.log(conversionLibrary.invertBoolean(Symbol(undefined)));    // Error
+console.log(conversionLibrary.invertBoolean(null));         // Error
+console.log(conversionLibrary.invertBoolean(undefined));    // Error
 
 console.log();
 
