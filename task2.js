@@ -85,6 +85,37 @@ class ConversionLibrary {
             return err.message;
         }
     };
+
+    customToString(value) {
+        if (Array.isArray(value)) {
+            return value.reduce((acc, item, index) => {
+                if (index !== 0) {
+                    acc += ',';
+                }
+                return acc + item;
+            }, '')
+        }
+
+        if (Object.prototype.toString.call(value) === '[object Object]') {
+            let result = '{';
+            let isFirstProperty = true;
+
+            for (let key in value) {
+                if (value.hasOwnProperty(key)) {
+                    if (!isFirstProperty) {
+                        result += ', '
+                    }
+                    result += `${key}: ${value[key]}`;
+                    isFirstProperty = false;
+                }
+            }
+
+            result += '}';
+            return result;
+        }
+
+        return '' + value;
+    }
 }
 
 const conversionLibrary = new ConversionLibrary();
@@ -139,3 +170,12 @@ console.log(conversionLibrary.coerceToType(1052468n, 'string'));     // '1052468
 console.log(conversionLibrary.coerceToType(null, 'number'));         // 0
 console.log(conversionLibrary.coerceToType(undefined, 'boolean'));   // false
 console.log(conversionLibrary.coerceToType(undefined, 'object'));    // Error
+
+console.log();
+
+console.log(conversionLibrary.customToString(5));                               // '5'
+console.log(conversionLibrary.customToString('abc'));                           // 'abc'
+console.log(conversionLibrary.customToString(true));                            // 'true'
+console.log(conversionLibrary.customToString(null));                            // 'null'
+console.log(conversionLibrary.customToString([1, 2, 3]));                       // '1,2,3'
+console.log(conversionLibrary.customToString({'a': 1, 'b': 2, 'c': 3}));        // '{'a': 1, 'b': 2, 'c': 3}'
