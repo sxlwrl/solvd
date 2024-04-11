@@ -1,29 +1,53 @@
 'use strict';
 
-const checkType = function (value, type) {
-    if (typeof value !== type) {
-        throw new Error(`Argument type is not a ${type}`);
+const checkObjectType = function (...values) {
+    values.forEach(val => {
+        if (typeof val === 'object' && val !== null) {
+            throw new Error('You cannot add objects');
+        }
+    });
+}
+
+const compareTypes = function (val1, val2) {
+    if (typeof val1 !== typeof val2) {
+        throw new Error('Values do not have the same type');
     }
 }
 
 class ConversionLibrary {
-    addValues() {};
+    addValues(value1, value2) {
+        try {
+            checkObjectType(value1, value2);
+
+            compareTypes(value1, value2);
+
+            return value1 + value2;
+
+        } catch (err) {
+            return err.message;
+        }
+    };
+
     stringifyValue(value) {
-        if (typeof value === "object") {
+        if (typeof value === 'object') {
             return JSON.stringify(value);
         }
 
         return value.toString();
     };
+
     invertBoolean(value) {
         try {
-            checkType(value, 'boolean');
+            if (typeof value !== 'boolean') {
+                throw new Error('Argument type is not a boolean');
+            }
 
             return !value;
         } catch (err) {
             return err.message;
         }
     };
+
     convertToNumber(value) {
         try {
             const parsedNumber = typeof value === 'string' ? parseFloat(value) : Number(value);
@@ -37,6 +61,7 @@ class ConversionLibrary {
             return err.message;
         }
     };
+
     coerceToType(value, type) {
         try {
             let coercedValue;
@@ -64,12 +89,23 @@ class ConversionLibrary {
 
 const conversionLibrary = new ConversionLibrary();
 
-console.log(conversionLibrary.stringifyValues(true));                            // 'true'
-console.log(conversionLibrary.stringifyValues(false));                           // 'false'
-console.log(conversionLibrary.stringifyValues('1'));                             // '1'
-console.log(conversionLibrary.stringifyValues(502n));                            // '502'
-console.log(conversionLibrary.stringifyValues({'a': 1, 'b': 2, 'c': 3}));        // '{"a":1,"b":2,"c":3}'
-console.log(conversionLibrary.stringifyValues([1, 2, 3]));                       // '[1,2,3]'
+console.log(conversionLibrary.addValues(1, 5));                            // 6
+console.log(conversionLibrary.addValues(-2, 8));                           // 6
+console.log(conversionLibrary.addValues('1', '4'));                        // '14'
+console.log(conversionLibrary.addValues('1', 4));                          // Error
+console.log(conversionLibrary.addValues(true, false));                     // 1
+console.log(conversionLibrary.addValues(102n, 5n));                        // 107n
+console.log(conversionLibrary.addValues(105n, '3'));                       // Error
+console.log(conversionLibrary.addValues([], 5));                           // Error
+
+console.log()
+
+console.log(conversionLibrary.stringifyValue(true));                            // 'true'
+console.log(conversionLibrary.stringifyValue(false));                           // 'false'
+console.log(conversionLibrary.stringifyValue('1'));                             // '1'
+console.log(conversionLibrary.stringifyValue(502n));                            // '502'
+console.log(conversionLibrary.stringifyValue({'a': 1, 'b': 2, 'c': 3}));        // '{"a":1,"b":2,"c":3}'
+console.log(conversionLibrary.stringifyValue([1, 2, 3]));                       // '[1,2,3]'
 
 console.log();
 
@@ -78,8 +114,8 @@ console.log(conversionLibrary.invertBoolean(false));                    // true
 console.log(conversionLibrary.invertBoolean('1'));                      // Error
 console.log(conversionLibrary.invertBoolean(502n));                     // Error
 console.log(conversionLibrary.invertBoolean(Symbol('foo')));        // Error
-console.log(conversionLibrary.invertBoolean(null));         // Error
-console.log(conversionLibrary.invertBoolean(undefined));    // Error
+console.log(conversionLibrary.invertBoolean(null));                     // Error
+console.log(conversionLibrary.invertBoolean(undefined));                // Error
 
 console.log();
 
