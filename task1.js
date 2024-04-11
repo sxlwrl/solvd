@@ -184,7 +184,7 @@ String.prototype.multiply = function(str) {
             result = result.plus(iterationResult);
         }
 
-        return result.replace(/^0+/, '');
+        return result.replace(/^0+(?=\d)/, '');
     }
     catch (err) {
         return err.message;
