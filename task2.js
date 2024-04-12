@@ -52,7 +52,7 @@ class ConversionLibrary {
         try {
             const parsedNumber = typeof value === 'string' ? parseFloat(value) : Number(value);
 
-            if (Number.isNaN(parsedNumber) || !parsedNumber) {
+            if (Number.isNaN(parsedNumber)) {
                 throw new Error('Unable to convert');
             }
 
@@ -64,23 +64,16 @@ class ConversionLibrary {
 
     coerceToType(value, type) {
         try {
-            let coercedValue;
-
             switch (type) {
                 case 'number':
-                    coercedValue = Number(value);
-                    break;
+                    return this.convertToNumber(value);
                 case 'string':
-                    coercedValue = String(value);
-                    break;
+                    return this.stringifyValue(value);
                 case 'boolean':
-                    coercedValue = !!value;
-                    break;
+                    return !!value;
                 default:
                     throw new Error('Incorrect type');
             }
-
-            return coercedValue;
         } catch (err) {
             return err.message;
         }
