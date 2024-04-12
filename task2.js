@@ -21,6 +21,10 @@ class ConversionLibrary {
 
             compareTypes(value1, value2);
 
+            if (typeof value1 === 'boolean' && typeof value2 === 'boolean') {
+              return value1 || value2;
+            }
+
             return value1 + value2;
 
         } catch (err) {
