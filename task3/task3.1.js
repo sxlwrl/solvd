@@ -1,6 +1,6 @@
 'use strict';
 
-const checkIsArray = function (arr) {
+const checkIsArray = function (products) {
     if (!Array.isArray(products)) {
         throw new Error('You have to pass an array');
     }
@@ -51,6 +51,7 @@ const products = [
 ];
 
 console.log(calculateDiscountedPrice(products, -10));   // Error
+console.log(calculateDiscountedPrice(null, -10));   // Error
 console.log(calculateDiscountedPrice(products, 20));    // Array of products with discounted price
 
 console.log(calculateTotalPrice(products));    // 80
