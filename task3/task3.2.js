@@ -40,7 +40,8 @@ const filterUniqueWords = function (str) {
 };
 
 const calculateAverageGrade = function (grades) {
-    return grades.reduce((total, grade) => total + grade, 0) / grades.length;
+    const result = grades.reduce((total, grade) => total + grade, 0) / grades.length;
+    return Number.parseFloat(result.toFixed(3));
 }
 
 const getGrades = function (students) {
