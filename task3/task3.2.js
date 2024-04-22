@@ -31,6 +31,7 @@ const filterUniqueWords = function (str) {
         }
 
         return str
+            .toLowerCase()
             .match(/\b(\w+)\b/g)
             .filter((item, index, arr) => arr.indexOf(item) === index)
             .sort((a, b) => a.localeCompare(b));
@@ -40,8 +41,10 @@ const filterUniqueWords = function (str) {
 };
 
 const calculateAverageGrade = function (grades) {
-    const result = grades.reduce((total, grade) => total + grade, 0) / grades.length;
-    return Number.parseFloat(result.toFixed(3));
+    return grades.map(studentGrades => {
+        const result = studentGrades.reduce((total, grade) => total + grade, 0) / studentGrades.length;
+        return Number.parseFloat(result.toFixed(3));
+    });
 }
 
 const getGrades = function (students) {
@@ -51,7 +54,15 @@ const getGrades = function (students) {
 const getAverageGrade = function (students) {
     try {
         checkIsArray(students);
-        return calculateAverageGrade(getGrades(students).flat());
+
+        const calculatedGrades = calculateAverageGrade(getGrades(students));
+
+        return students.map((student, index) => {
+            return {
+                ...student,
+                avg: calculatedGrades[index]
+            };
+        });
     } catch (err) {
         return err.message;
     }
@@ -78,5 +89,5 @@ console.log(filterUniqueWords(true));   // Error
 
 console.log();
 
-console.log(getAverageGrade(studentsList));     // 88.056
+console.log(getAverageGrade(studentsList));     // Students object with avg grade
 console.log(getAverageGrade(null));     // Error
