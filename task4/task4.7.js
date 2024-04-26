@@ -1,5 +1,7 @@
 'use strict';
 
+const checkIsObject = require('./utils');
+
 const person = {
     firstName: 'John',
     lastName: 'Doe',
@@ -8,6 +10,13 @@ const person = {
 };
 
 const validateObject = function (obj, schema) {
+    try {
+        checkIsObject(obj);
+        checkIsObject(schema);
+    } catch (err) {
+        return err.message;
+    }
+
     const requiredProps = Object.keys(schema);
 
     const validateRequiredProps = requiredProps.every(property => obj.hasOwnProperty(property));
