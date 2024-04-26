@@ -10,18 +10,20 @@ const person = {
 const observeObject = function (obj, cb) {
     const observedObject = {};
 
-    for (const key in obj) {
-        Object.defineProperty(observedObject, key, {
-            get () {
-                cb(key, 'get');
-                return obj[key];
-            },
-            set (value) {
-                cb(key, 'set');
-                obj[key] = value;
-            },
+    Object
+        .entries(obj)
+        .forEach(([key, value]) => {
+            Object.defineProperty(observedObject, key, {
+                get() {
+                    cb(key, 'get');
+                    return value;
+                },
+                set(newValue) {
+                    cb(key, 'set');
+                    value = newValue;
+                },
+            });
         });
-    }
 
     return observedObject;
 };
