@@ -1,5 +1,7 @@
 'use strict';
 
+const checkIsObject = require('./utils');
+
 const product = {
     name: "Laptop",
     price: 1000,
@@ -7,7 +9,14 @@ const product = {
 };
 
 const defineProductProperties = function (obj) {
-    Object.defineProperties(obj, {
+    try {
+        checkIsObject(obj);
+    } catch (err) {
+        return err.message;
+    }
+
+    Object
+        .defineProperties(obj, {
         price: {
             writable: false,
             enumerable: false,
@@ -23,6 +32,12 @@ const defineProductProperties = function (obj) {
 defineProductProperties(product);
 
 const getTotalPrice = function (obj) {
+    try {
+        checkIsObject(obj);
+    } catch (err) {
+        return err.message;
+    }
+
     const price = Object.getOwnPropertyDescriptor(obj, 'price').value;
     const quantity = Object.getOwnPropertyDescriptor(obj, 'quantity').value;
 
@@ -31,6 +46,8 @@ const getTotalPrice = function (obj) {
 
 const deleteNonConfigurable = function (obj, property) {
     try {
+        checkIsObject(obj);
+
         const descriptor = Object.getOwnPropertyDescriptor(obj, property);
 
         if (!descriptor) {
