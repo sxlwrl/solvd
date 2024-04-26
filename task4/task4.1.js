@@ -1,17 +1,13 @@
 'use strict';
 
+const checkIsObject = require('./utils');
+
 const person = {
     firstName: 'John',
     lastName: 'Doe',
     age: 30,
     email: 'john.doe@example.com',
 };
-
-const checkIsObject = function (obj) {
-    if (typeof obj !== 'object' || obj === null || typeof obj === 'function') {
-        throw new Error('Argument is not an object');
-    }
-}
 
 const makeOnlyReadable = function (obj) {
     try {
