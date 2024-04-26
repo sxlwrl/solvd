@@ -1,5 +1,7 @@
 'use strict';
 
+const checkIsObject = require('./utils');
+
 const person = {
     firstName: 'John',
     lastName: 'Doe',
@@ -8,6 +10,12 @@ const person = {
 };
 
 const observeObject = function (obj, cb) {
+    try {
+        checkIsObject(obj);
+    } catch (err) {
+        return err.message;
+    }
+
     const observedObject = {};
 
     Object
