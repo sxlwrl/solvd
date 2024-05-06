@@ -1,3 +1,5 @@
+'use strict';
+
 const translations = {
     en: {
         greet: "Hello",
