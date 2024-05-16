@@ -210,7 +210,7 @@ class Order {
      * Method that returns all information about user's order
      */
 
-    get information() {
+    getInformation() {
         return {
             user: this._user.userInformation,
             cart: this._cart.cart,
@@ -296,5 +296,5 @@ cart_1.getTotalPrice();     // 38
 
 const order_1 = new Order(user_1, cart_1);
 
-console.log(order_1.information);
+console.log(order_1.getInformation());
 
