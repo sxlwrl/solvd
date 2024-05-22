@@ -1,6 +1,9 @@
 'use strict';
 
 class Node {
+    /**
+     * Initiate a node without the next element and with received value
+     */
     constructor(value) {
         this.val = value;
         this.next = null;
@@ -8,12 +11,20 @@ class Node {
 }
 
 class LinkedList {
+    /**
+     * Initiate a linkedList without the head and tail, and first element and with size 0
+     */
     constructor() {
         this.head = null;
         this.tail = null;
         this.length = 0;
     };
 
+    /**
+     * Method that pushes received value into the list
+     * @param value
+     * @returns list length
+     */
     push(value) {
         const newNode = new Node(value);
 
@@ -30,17 +41,21 @@ class LinkedList {
         return this.length;
     };
 
+    /**
+     * Method that pops last element from the list
+     * @returns popped element
+     */
     pop() {
         if (!this.length) {
             return null;
         }
 
-        let current = this.head;
-        let newTail = current;
+        let currentNode = this.head;
+        let newTail = currentNode;
 
-        while (current.next) {
-            newTail = current;
-            current = current.next;
+        while (currentNode.next) {
+            newTail = currentNode;
+            currentNode = currentNode.next;
         }
 
         this.tail = newTail;
@@ -52,9 +67,13 @@ class LinkedList {
             this.tail = null;
         }
 
-        return current;
+        return currentNode;
     };
 
+    /**
+     * Method that shifts first element from the list
+     * @returns shifted element
+     */
     shift() {
         if (!this.length) {
             return null;
@@ -72,6 +91,11 @@ class LinkedList {
         return removedNode;
     };
 
+    /**
+     * Method that pushes received value into the beginning of the list
+     * @param value
+     * @returns list length
+     */
     unshift(value) {
         const newNode = new Node(value);
 
@@ -89,22 +113,33 @@ class LinkedList {
         return this.length;
     };
 
+    /**
+     * Method that finds and returns element from the list by the received index
+     * @param index
+     * @returns found element
+     */
     get(index) {
         if (index < 0 || index >= this.length) {
             return null;
         }
 
-        let current = this.head;
+        let currentNode = this.head;
         let iterCounter = 0;
 
         while (iterCounter !== index) {
-            current = current.next;
+            currentNode = currentNode.next;
             iterCounter++;
         }
 
-        return current;
+        return currentNode;
     };
 
+    /**
+     * Method that inserts element into the list
+     * @param value
+     * @param index
+     * @returns list length
+     */
     insert(value, index) {
         const newNode = new Node(value);
 
@@ -126,11 +161,14 @@ class LinkedList {
         prev.next = newNode;
         newNode.next = temp;
 
-        this.length++;
-
-        return true;
+        return this.length++;
     };
 
+    /**
+     * Method that removes element from the list by the received index
+     * @param index
+     * @returns removed element
+     */
     remove(index) {
         if (index < 0 || index > this.length) {
             return undefined;
@@ -154,6 +192,10 @@ class LinkedList {
         return removedNode;
     };
 
+    /**
+     * Method that checks if the list is cycled
+     * @returns {boolean}
+     */
     isCycled() {
         if (!this.head || !this.head.next) {
             return false;
