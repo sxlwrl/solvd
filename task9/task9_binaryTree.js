@@ -1,6 +1,9 @@
 'use strict';
 
 class Node {
+    /**
+     * Initiate a node without the left and right element and with received value
+     */
     constructor(value) {
         this.value = value;
         this.left = null;
@@ -9,10 +12,17 @@ class Node {
 }
 
 class BinarySearchTree {
+    /**
+     * Initiate a binaryTree without root element
+     */
     constructor() {
         this.root = null;
     };
 
+    /**
+     * Method that adds a node to a binary tree
+     * @param value
+     */
     insert(value) {
         const newNode = new Node(value);
         if (this.root === null) {
@@ -41,6 +51,10 @@ class BinarySearchTree {
         }
     };
 
+    /**
+     * Method that finds a specific node in a binary tree
+     * @param value
+     */
     find(value) {
         if (this.root === null) {
             return null;
@@ -62,6 +76,9 @@ class BinarySearchTree {
         if (!found) return null;
     };
 
+    /**
+     * Method that traverses tree in pre-order
+     */
     PreOrder() {
         const nodes = [];
 
@@ -76,6 +93,9 @@ class BinarySearchTree {
         return nodes;
     };
 
+    /**
+     * Method that traverses tree in post-order
+     */
     PostOrder() {
         const nodes = [];
 
@@ -91,6 +111,9 @@ class BinarySearchTree {
         return nodes;
     };
 
+    /**
+     * Method that traverses tree in in-order
+     */
     InOrder() {
         const nodes = [];
 
@@ -105,6 +128,9 @@ class BinarySearchTree {
         return nodes;
     };
 
+    /**
+     * Method that checks if tree is binary (left element less than parent, right element is great than parent)
+     */
     isBST() {
         function validate(node, min = null, max = null) {
             if (node === null) return true;
